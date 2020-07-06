@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Prikaz pitanja - Opšti deo{% endblock %}
+
+{% block content%}
+
+<div id="exportContent">
+    <center><h3>ОПШТИ ДЕО</h3></center>
+    <ol type="1" class="text-left my-3">
+        {% for pitanja in pitanja %}
+            {% if pitanja.odgovor_cetiri is not none  %}
+            <li style="margin-top: 10px;">{{pitanja.text_pitanja}}
+                <ul style="list-style-type: none;">
+                    a) {{pitanja.odgovor_jedan}}</br>
+                    b) {{pitanja.odgovor_dva}}</br>
+                    c) {{pitanja.odgovor_tri}}</br>
+                    d) {{pitanja.odgovor_cetiri}}
+                </ul>
+            </li>
+            {% else %}
+            <li style="margin-top: 10px;">{{pitanja.text_pitanja}}
+                <ul style="list-style-type: none;">
+                    а) {{pitanja.odgovor_jedan}}</br>
+                    б) {{pitanja.odgovor_dva}}</br>
+                    в) {{pitanja.odgovor_tri}}
+                </ul>
+            </li>
+            {%endif%}
+        {% endfor %}
+    </ol>
+</div>
+    <center><a type="button" class="btn btn-primary text-white btn-prikazi" onclick="Export2Doc('exportContent', 'Opšti_deo');" style=" width: 220px; font-size: 18px;">Konvertuj u Word fajl</a></center><br/><br/>
+
+
+
+{% endblock %}

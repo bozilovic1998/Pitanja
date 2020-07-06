@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Opšti deo{% endblock %}
+
+{% block content%}
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('Opsti_deo')}}" style="color: #008ae6; font-weight: bold;  font-size: 20px;" >Opšti deo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('Tds_Pitanja')}}" style="color: #000000;  font-size: 20px;" >Tehničar drumskog saobraćaja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('B_Pitanja')}}" style="color: #000000;  font-size: 20px;">B kategorija</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('C_Pitanja')}}" style="color: #000000;  font-size: 20px;" >C kategorija</a>
+                </li>
+            </ul>
+     <div class="text-right">
+        <a href="{{url_for('Logout')}}" class="icon-btn"  role="button"><b style=" font-size:20px; color: #008ae6;">Odjavi se</b></a>
+     </div>
+  </div>
+</nav>
+
+
+  {%with messages = get_flashed_messages()%}
+  {%if messages%}
+  {% for message in messages %}
+  <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      <center>{{message}}</center>
+  </div>
+  {%endfor%}
+  {%endif%}
+  {%endwith%}
+
+  
+     <div class="container my-5" style="margin-top: 6rem!important;">
+        <div class="row justify-content-center ">
+            <div class="justify-content-center" style="padding-bottom: 40px;"><b style="color:#008ae6; font-size:25px;">Unesi broj pitanja</b><br/><center><p style="font-size: 18px;">Od <b>{{minimum.Broj_Pitanja_Min}}</b> do  <b>{{maximum.Broj_Pitanja_Max}}</b> </p></center></div>
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="table-responsive">
+
+                <table class="table table-bordered" style="border: none;">
+                      <tbody >
+                        <tr >
+                        <form action="{{url_for('Prikaz_opsti_deo')}}" method="POST">
+                            <td style="border: none" scope="row">
+                                <input type="number" name="prvo" min="{{minimum.Broj_Pitanja_Min}}" max="{{maximum.Broj_Pitanja_Max}}" id="prvo" required style="width:200px;text-align: center;  font-size: 18px;">
+                            </td>
+                            <td style="border: none">
+                                <input type="number" name="drugo" min="{{minimum.Broj_Pitanja_Min}}" max="{{maximum.Broj_Pitanja_Max}}" id="drugo" required style=" width:200px; text-align: center;  font-size: 18px;">
+                            </td>
+                            <td style="border: none">
+                                <input type="number" name="trece" min="{{minimum.Broj_Pitanja_Min}}" max="{{maximum.Broj_Pitanja_Max}}" id="trece" required style=" width:200px; text-align: center;  font-size: 18px;">
+                            </td>
+                            <td style="border: none"> 
+                                <input type="number" name="cetvrto" min="{{minimum.Broj_Pitanja_Min}}" max="{{maximum.Broj_Pitanja_Max}}" id="cetvrto" required style=" width:200px; text-align: center;  font-size: 18px;">
+                            </td>
+                            <td style="border: none">
+                                <input type="number" name="peto" min="{{minimum.Broj_Pitanja_Min}}" max="{{maximum.Broj_Pitanja_Max}}" id="peto" required style=" width:200px;text-align: center;  font-size: 18px;">
+                            </td>
+                        </tr>
+                      </tbody>
+                </table>
+            </div>
+             <center><input type="submit" class="btn btn-primary text-white btn-prikazi" value="Prikaži pitanja" style=" width: 280px; font-size: 18px; margin-top: 10%"/></center>
+             </form>
+        </div>
+     </div>
+   
+
+{% endblock %}

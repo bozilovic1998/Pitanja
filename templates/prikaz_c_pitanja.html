@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Prikaz pitanja - C kategorija{% endblock %}
+
+{% block content%}
+
+<div id="exportContent">
+    <center><h4>ТЕСТ ЗНАЊА И ВЕШТИНА ИЗ УПРАВЉАЊА И ОДРЖАВАЊА<br/>ТЕРЕТНОГ МОТОРНОГ ВОЗИЛА</h4></center>
+        <ol type="1" class="text-left my-3">
+        {% for pitanja in pitanja %}
+        <li style="margin-top: 10px;">{{pitanja.text_pitanja}}
+            <ul style="list-style-type: none;">
+                а) {{pitanja.odgovor_jedan}}<br/>
+                б) {{pitanja.odgovor_dva}}<br/>
+                в) {{pitanja.odgovor_tri}}
+            </ul>
+        </li> 
+        {% endfor %}
+        </ol>  
+</div>
+    <center><a type="button" class="btn btn-primary text-white btn-prikazi" onclick="Export2Doc('exportContent', 'C_kategorija');" style=" width: 220px; font-size: 18px;">Konvertuj u Word fajl</a></center><br/><br/>
+
+
+
+
+{% endblock %}

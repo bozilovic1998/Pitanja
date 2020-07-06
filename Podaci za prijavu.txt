@@ -1,0 +1,13 @@
+Administrator:
+
+Korisničko ime: admin
+
+Lozinka: admin1
+
+
+
+Korisnik:
+
+Korisničko ime: korisnik
+
+Lozinka: korisnik1

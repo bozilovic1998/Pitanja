@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Administrator - C kategorija{% endblock %}
+
+{% block content%}
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('Korisnici')}}" style="color: #000000; font-size: 20px;">Korisnici</a>
+                </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="{{url_for('Admin_opsti_deo')}}" style="color: #008ae6; font-weight: bold;  font-size: 20px;" role="button" aria-haspopup="true" aria-expanded="false">Pitanja</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{url_for('Admin_opsti_deo')}}">Opšti deo</a>
+                  <a class="dropdown-item" href="{{url_for('Admin_tds_pitanja')}}">Tehničar drumskog saobraćaja</a>
+                  <a class="dropdown-item" href="{{url_for('Admin_b_pitanja')}}">B kategorija</a>
+                  <a class="dropdown-item active" href="{{url_for('Admin_c_pitanja')}}">C kategorija</a>
+              </li>
+              <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#modalnew" href="" id="dodaj_pitanje" role="button" style="color: #00cc66; font-size: 20px;">Dodaj pitanje</a>
+                </li>
+            </ul>
+            <div class="text-right">
+                <a href="{{url_for('Logout_Admin')}}" class="icon-btn"  role="button"><b style="font-size:20px; color: #008ae6;">Odjavi se</b></a>
+            </div>
+        </div>
+    </nav>
+
+    <center><h5 style="color: #008ae6;">C kategorija</h5></center>
+
+    {%with messages = get_flashed_messages()%}
+              {%if messages%}
+              {% for message in messages %}
+              <div class="alert alert-success alert-dismissable" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <center>{{message}}</center>
+              </div>
+              {%endfor%}
+              {%endif%}
+              {%endwith%}
+
+    <ol type="1" start="94" class="text-left my-3">
+        {% for pitanja in pitanja %}
+        <li >{{pitanja.text_pitanja}} &nbsp; <a href="/tds_pitanja_izmena/{{pitanja.id}}" class="icon-btn text-warning" data-toggle="modal" data-target="#modaledit{{pitanja.id}}" role="button"><i class="fas fa-edit"></i></a>&nbsp;
+            <ul style="list-style-type: none;">
+                а) {{pitanja.odgovor_jedan}}<br/>
+                б) {{pitanja.odgovor_dva}}<br/>
+                в) {{pitanja.odgovor_tri}}<br/>
+            </ul>
+        </li><br/>
+
+        <div id="modaledit{{pitanja.id}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Pitanja - izmena</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form action="{{url_for('C_pitanja_izmena')}}" method="POST">
+                    <div class="form-group">
+                      <div class="form-group">
+                    <label for="Broj_Pitanja">Broj pitanja</label>
+                        <input type="number" class="form-control" name="broj_pitanja" id="broj_pitanja" value="{{pitanja.broj_pitanja}}" />
+                    </div>
+                    <label for="Tekst_Pitanja">Tekst pitanja</label>
+                        <input type="hidden" name="id" value="{{pitanja.id}}">
+                        <textarea class="form-control" name="text_pitanja" id="text_pitanja">{{pitanja.text_pitanja}}</textarea>
+                    </div>
+                    <div class="form-group">
+                    <label for="Odgovor_1">1. ponuđeni odgovor</label>
+                        <textarea class="form-control" name="odgovor_jedan" id="odgovor_jedan">{{pitanja.odgovor_jedan}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="Odgovor_2">2. ponuđeni odgovor</label>
+                        <textarea class="form-control" name="odgovor_dva" id="odgovor_dva">{{pitanja.odgovor_dva}}</textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="Odgovor_3">3. ponuđeni odgovor</label>
+                        <textarea class="form-control" name="odgovor_tri" id="odgovor_tri">{{pitanja.odgovor_tri}}</textarea>
+                    </div>
+                    <input type="submit" class="btn btn-primary text-white" value="Sačuvaj">
+                  </form>
+                </div>
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Otkaži</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {% endfor %}
+    </ol>
+
+   
+     <div id="modalnew" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Novo pitanje</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form action="{{url_for('Novo_c_pitanje')}}" method="POST">
+              <div class="form-group">
+                <label for="Broj_Pitanja">Broj pitanja</label>
+                    <input type="number" placeholder="Sledeći broj pitanja treba biti {{(br.broj_pitanja+1)}}" class="form-control" name="broj_pitanja" id="broj_pitanja" required/>
+                </div>
+                <div class="form-group">
+                <label for="Tekst_Pitanja">Tekst pitanja</label>
+                    <textarea class="form-control" name="text_pitanja" id="text_pitanja" required></textarea>
+                </div>
+                <div class="form-group">
+                <label for="Odgovor_1">1. ponuđeni odgovor</label>
+                    <textarea class="form-control" name="odgovor_jedan" id="odgovor_jedan" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="Odgovor_2">2. ponuđeni odgovor</label>
+                    <textarea class="form-control" name="odgovor_dva" id="odgovor_dva" required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="Odgovor_3">3. ponuđeni odgovor</label>
+                  <textarea class="form-control" name="odgovor_tri" id="odgovor_tri" required></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary text-white" value="Sačuvaj">
+              </form>
+            </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Otkaži</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

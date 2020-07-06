@@ -1,0 +1,51 @@
+#navbardrop{
+  color: #008ae6;
+  font-weight: bold;
+  font-size:20px;
+  outline: none;
+  text-shadow: transparent;
+  text-decoration:none;
+  background: none;
+}
+
+#navbardrop:hover{
+  color: #000000;
+  outline: none;
+  text-shadow: transparent;
+  text-decoration:none;
+  background: none;
+}
+
+.dropdown-item{
+  color: #000000;
+  outline: none;
+  text-shadow: transparent;
+  text-decoration:none;
+  background: none;
+}
+.dropdown-item:hover{
+  color: #000000;
+  font-weight: bold;
+  outline: none;
+  text-shadow: transparent;
+  text-decoration:none;
+  background: none;
+}
+
+
+.btn-prikazi{
+  width: 280px; 
+  background:#008ae6;
+  color: white;
+}
+
+.btn-dodaj{
+  
+  background:#008ae6;
+  color: white;
+}
+
+.navbar .navbar-collapse .text-right {
+  text-align:left !important;
+
+} 

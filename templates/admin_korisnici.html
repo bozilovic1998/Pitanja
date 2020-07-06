@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Administrator - Korisnici{% endblock %}
+
+{% block content%}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('Korisnici')}}" style="color: #008ae6;
+  font-weight: bold; font-size: 20px;">Korisnici</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('Admin_opsti_deo')}}" style="color: #000000;  font-size: 20px;">Pitanja</a>
+                </li>
+            </ul>
+            <div class="text-right">
+               <a href="{{url_for('Logout_Admin')}}" class="icon-btn"  role="button"><b style=" font-size:20px; color: #008ae6;">Odjavi se</b></a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="py-5">
+        <div class="container">
+            <div class='row justify-content-end my-5'>
+              <a class="btn btn-primary text-white btn-dodaj" data-toggle="modal" data-target="#modalnew" role="button">Dodaj korisnika</a>
+            </div>
+              {%with messages = get_flashed_messages()%}
+              {%if messages%}
+              {% for message in messages %}
+              <div class="alert alert-success alert-dismissable" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <center>{{message}}</center>
+              </div>
+              {%endfor%}
+              {%endif%}
+              {%endwith%}
+            <div class='row d-flex justify-content-center'>
+                   <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Korisničko ime</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Akcije</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for korisnici in korisnici %}
+                            <tr>
+                                <td>{{korisnici.korisnicko_ime}}</td>
+                                <td>{{korisnici.email}}</td>
+                                <td> 
+                                    <a href="/korisnik_izmena/{{korisnici.id}}" class="icon-btn text-warning" data-toggle="modal" data-target="#modaledit{{korisnici.id}}" role="button"><i class="fas fa-edit"></i></a>
+                                    &nbsp;
+                                    <a href="/korisnik_brisanje/{{korisnici.id}}" onclick="return confirm('Da li ste sigurni da želite da obrišete navedenog korisnika?')" class="icon-btn text-danger" role="button"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <div id="modaledit{{korisnici.id}}" class="modal fade" role="dialog">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!-- Modal Header -->
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Korisnik - izmena</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+                                  <!-- Modal body -->
+                                  <div class="modal-body">
+                                    <form action="{{url_for('Korisnik_Izmena')}}" method="POST">
+                                      <div class="form-group">
+                                      <label for="UserName">Korisničko ime</label>
+                                         <input type="hidden" name="id" value="{{korisnici.id}}">
+                                         <input type="text" class="form-control" name="korisnicko_ime" id="korisnicko_ime" value="{{korisnici.korisnicko_ime}}">
+                                      </div>
+                                      <div class="form-group">
+                                      <label for="E-mail">E-mail</label>
+                                         <input type="email" class="form-control" name="email" id="email" value="{{korisnici.email}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="Password">Lozinka</label>
+                                        <input type="password" class="form-control" name="lozinka" id="lozinka" value="{{korisnici.lozinka}}">
+                                      </div>
+                                      <input type="submit" class="btn btn-primary text-white" value="Sačuvaj">
+                                    </form>
+                                  </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Otkaži</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+        </div>
+    </section>
+
+    <div id="modalnew" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Novi korisnik</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+          <form action="{{ url_for('Novi_Korisnik')}}" method="POST">
+              <div class="form-group">
+              <label for="UserName">Korisničko ime</label>
+                <input type="hidden" name="id" value="">
+                <input type="text" class="form-control" name="korisnicko_ime" id="korisnicko_ime" value="">
+              </div>
+              <div class="form-group">
+              <label for="E-mail">E-mail</label>
+                <input type="email" class="form-control" name="email" id="email" value="">
+              </div>
+              <div class="form-group">
+                <label for="Password">Lozinka</label>
+                <input type="password" class="form-control" name="lozinka" id="lozinka" value="">
+              </div>
+              <input type="submit" class="btn btn-primary text-white" value="Sačuvaj">
+          </form>
+          </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Otkaži</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+{% endblock %}
